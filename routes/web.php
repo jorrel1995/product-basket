@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-
-    return view('pages.home');
-});
+Route::get('/', [ProductController::class, 'index']);
+Route::post('/basket/add', [ProductController::class, 'add'])->name('basket.add');
+Route::post('/basket/delete', [ProductController::class, 'delete'])->name('basket.delete');
+Route::post('/basket/clear', [ProductController::class, 'clearBasket'])->name('basket.clear');
+Route::post('/basket/update', [ProductController::class, 'update'])->name('basket.update');

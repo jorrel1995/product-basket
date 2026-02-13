@@ -1,21 +1,33 @@
 <div class="container pt-5">
     <div class="row align-items-center">
 
-        @for($i = 0; $i < 4; $i++)
+        @forelse($products as $product)
             <div class="col-3">
                 <h4 class="mb-3">
-                    Product #{{ $i + 1 }}
-                    <span class="fw-bold rounded text-success float-end">&pound;0.00</span>
+                    {{ $product->name }}
+                    <span id="price-{{ $product->id }}"
+                        class="fw-bold rounded text-success float-end">&pound;{{ $product->price }}</span>
                 </h4>
+                <div class="mb-2">
+                    @if($product->stock > 0)
+                        <span class="badge bg-success">Available stock: {{ $product->stock }}</span>
+                    @else
+                        <span class="badge bg-danger">Out of Stock</span>
+                    @endif
+                </div>
 
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="Quantity">
+                    <input type="text" class="form-control" id="quantity-{{ $product->id }}" placeholder="Quantity"
+                        @if($product->stock == 0) disabled @endif>
                     <div class="input-group-append">
-                        <button class="btn btn-primary" type="button">Add</button>
+                        <button class="btn btn-primary" data-product-id="{{ $product->id }}" type="button"
+                            @if($product->stock == 0) disabled @endif>Add</button>
                     </div>
                 </div>
             </div>
-        @endfor
+        @empty
+            <p>No products found</p>
+        @endforelse
 
     </div>
 </div>
